@@ -7,8 +7,7 @@ const server = express();
 server.use(express.json());
 
 server.get('/api/accounts', ({query: {limit, sortby, sortdir='desc'}}, res) => {
-  let query = db.select('*')
-    .from('accounts');
+  let query = db('accounts').select('*');
 
   if (limit !== undefined) {
     limit = Number(limit);
@@ -26,8 +25,8 @@ server.get('/api/accounts', ({query: {limit, sortby, sortdir='desc'}}, res) => {
 });
 
 server.post('/api/accounts', ({body: {name, budget}}, res) =>
-  db.insert({name, budget})
-    .into('accounts')
+  db('accounts')
+    .insert({name, budget})
     .then(([id]) =>
       db('accounts')
         .select('*')
